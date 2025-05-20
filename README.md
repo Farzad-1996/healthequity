@@ -17,7 +17,7 @@ git clone https://github.com/Farzad-1996/healthequity
 cd healthequity
 ```
 
-### 1️⃣ For Llama 3.1 8B and GPT-4
+### 1️⃣ For Llama 3.1 8B and GPT-4o
 To set up the environment and ensure GPU access, run:
 
 ```bash
