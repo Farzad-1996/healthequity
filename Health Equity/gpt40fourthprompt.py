@@ -15,7 +15,7 @@ openai.api_key = ''
 
 file_path = '/projects/ouzuner/fahmed34/Equity/results/predicted_no_gpt4othirdprompt_001.csv'
 
-# Load the JSON data into a DataFrame with lines=True
+
 df = pd.read_csv(file_path)
 data= df
 
@@ -51,14 +51,14 @@ Here is the abstract for classification:
 """
 
 
-# Define function for zero-shot classification
+
 def zero_shot_classify_batch(texts):
     prompts = [prompt_template.format(text) for text in texts]
     predictions = []
     
     for prompt in prompts:
-        retries = 3  # Max retry attempts
-        delay = 10   # Initial delay in seconds
+        retries = 3  
+        delay = 10   
         
         for attempt in range(retries):
             try:
@@ -72,22 +72,22 @@ def zero_shot_classify_batch(texts):
                 predictions.append(prediction)
                 
                 delay = 10  # Reset delay after a successful call
-                break  # ✅ Exit retry loop on success
+                break  
             
             except openai.RateLimitError:
                 print(f"⚠️ Rate limit reached. Retrying in {delay} seconds... (Attempt {attempt+1}/{retries})")
                 time.sleep(delay + random.uniform(1, 3))  # Add slight randomness to avoid collisions
-                delay *= 2  # Exponential backoff (10s → 20s → 40s)
+                delay *= 2  
             
             except openai.OpenAIError as e:
                 print(f"🚨 OpenAI API Error: {e}")
                 predictions.append("Error")
-                break  # Stop retrying on fatal API errors
+                break  
             
             except Exception as e:
                 print(f"🔥 Unexpected error: {e}")
                 predictions.append("Error")
-                break  # Stop retrying on unknown errors
+                break  
         
         else:  
             print("❌ Max retries reached. Moving to the next prompt.")
