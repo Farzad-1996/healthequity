@@ -1,4 +1,7 @@
+!pip install openai==0.28.1
+
 import openai
+from openai.error import RateLimitError, OpenAIError
 import pandas as pd
 import time
 from sklearn.model_selection import train_test_split
