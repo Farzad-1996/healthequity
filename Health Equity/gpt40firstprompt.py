@@ -115,12 +115,12 @@ def zero_shot_classify_batch(texts):
                 delay = 10  # Reset delay after a successful call
                 break  
             
-            except openai.RateLimitError:
+            except RateLimitError:
                 print(f"⚠️ Rate limit reached. Retrying in {delay} seconds... (Attempt {attempt+1}/{retries})")
                 time.sleep(delay + random.uniform(1, 3))  # Add slight randomness to avoid collisions
                 delay *= 2  # Exponential backoff (10s → 20s → 40s)
             
-            except openai.OpenAIError as e:
+            except OpenAIError as e:
                 print(f"🚨 OpenAI API Error: {e}")
                 predictions.append("Error")
                 break  # Stop retrying on fatal API errors
