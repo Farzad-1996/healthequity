@@ -15,11 +15,11 @@ openai.api_key = ''
 
 file_path = '/projects/ouzuner/fahmed34/Equity/results/predicted_no_gpt4ofirstprompt_001.csv'
 
-# Load the JSON data into a DataFrame with lines=True
+
 df = pd.read_csv(file_path)
 data= df
 
-# Define the prompt template
+
 prompt_template = """You are an expert in analyzing study abstracts to determine if they qualify as people-focused health equity scholarship.
 
 Follow these structured steps for reasoning:
@@ -95,8 +95,8 @@ def zero_shot_classify_batch(texts):
     predictions = []
     
     for prompt in prompts:
-        retries = 3  # Max retry attempts
-        delay = 10   # Initial delay in seconds
+        retries = 3  
+        delay = 10   
         
         for attempt in range(retries):
             try:
@@ -110,22 +110,22 @@ def zero_shot_classify_batch(texts):
                 predictions.append(prediction)
                 
                 delay = 10  # Reset delay after a successful call
-                break  # ✅ Exit retry loop on success
+                break  
             
             except openai.RateLimitError:
                 print(f"⚠️ Rate limit reached. Retrying in {delay} seconds... (Attempt {attempt+1}/{retries})")
                 time.sleep(delay + random.uniform(1, 3))  # Add slight randomness to avoid collisions
-                delay *= 2  # Exponential backoff (10s → 20s → 40s)
+                delay *= 2  
             
             except openai.OpenAIError as e:
                 print(f"🚨 OpenAI API Error: {e}")
                 predictions.append("Error")
-                break  # Stop retrying on fatal API errors
+                break  
             
             except Exception as e:
                 print(f"🔥 Unexpected error: {e}")
                 predictions.append("Error")
-                break  # Stop retrying on unknown errors
+                break  
         
         else:  
             print("❌ Max retries reached. Moving to the next prompt.")
@@ -134,14 +134,14 @@ def zero_shot_classify_batch(texts):
     return predictions
 
 # Process data in smaller batches
-batch_size = 10  # Reduced batch size for reliability
+batch_size = 10  
 predictions = []
 
 for i in range(0, len(data), batch_size):
     batch_texts = data['Abstract'][i:i+batch_size].tolist()
     batch_predictions = zero_shot_classify_batch(batch_texts)
     predictions.extend(batch_predictions)
-    time.sleep(1)  # Brief pause to manage rate limits
+    time.sleep(1)  
 
 # Ensure predictions length matches data length
 if len(predictions) < len(data):
