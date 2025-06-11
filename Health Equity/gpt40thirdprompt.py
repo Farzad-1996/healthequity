@@ -1,4 +1,7 @@
+!pip install openai==0.28.1
+
 import openai
+from openai.error import RateLimitError, OpenAIError
 import pandas as pd
 import time
 from sklearn.model_selection import train_test_split
@@ -98,12 +101,12 @@ def zero_shot_classify_batch(texts):
                 delay = 10  
                 break  
             
-            except openai.RateLimitError:
+            except RateLimitError:
                 print(f"⚠️ Rate limit reached. Retrying in {delay} seconds... (Attempt {attempt+1}/{retries})")
                 time.sleep(delay + random.uniform(1, 3))  # Add slight randomness to avoid collisions
                 delay *= 2  
             
-            except openai.OpenAIError as e:
+            except OpenAIError as e:
                 print(f"🚨 OpenAI API Error: {e}")
                 predictions.append("Error")
                 break  
