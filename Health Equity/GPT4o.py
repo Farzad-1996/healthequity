@@ -191,7 +191,7 @@ def zero_shot_classify_batch(texts):
 
     return predictions
 
-# Process data in smaller batches
+
 batch_size = 10  # Reduced batch size for reliability
 predictions = []
 
@@ -201,7 +201,7 @@ for i in range(0, len(data), batch_size):
     predictions.extend(batch_predictions)
     time.sleep(1)  
 
-# Ensure predictions length matches data length
+
 if len(predictions) < len(data):
     predictions.extend(["Error"] * (len(data) - len(predictions)))
 
